@@ -70,14 +70,13 @@ characters preceding the current line. This information will be used to unindent
     }
 >
 
-define-command idris2-indent-new-line -docstring "indents newly inserted lines.
+define-command idris2-newline -docstring "indents newly inserted lines and continues comments.
 
 This command is intended to be run in a hook after a newline was inserted." \
 %<
     # first trim whitespace on past line
     try %< execute-keys -draft -itersel <semicolon> K s \h+$<ret> d >
 
-    # next determine new identation
     evaluate-commands -draft -itersel %<
         execute-keys <semicolon>
         # Continue documentation
@@ -89,7 +88,7 @@ This command is intended to be run in a hook after a newline was inserted." \
     >
 >
 
-define-command idris2-unindent-delete \
+define-command idris2-delete \
 -docstring "Deindents a line.
 
 This command is intended to be run as a hook" %<
