@@ -124,6 +124,7 @@ define-command idris2-indent \
 -docstring "indent selected lines, aligning the result to the surrounding context." %<
     evaluate-commands -draft -itersel %<
         try %<
+            execute-keys gh
             idris2-priv-indent-line
         > catch %<
             execute-keys -draft -itersel k<a-x><a-k>\h[=]\h*$<ret>J<a-&><semicolon>
