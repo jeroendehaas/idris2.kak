@@ -89,7 +89,7 @@ This command is intended to be run in a hook after a newline was inserted." \
     >
 >
 
-define-command idris2-indent-delete \
+define-command idris2-unindent-delete \
 -docstring "Deindents a line.
 
 This command is intended to be run as a hook" %<
