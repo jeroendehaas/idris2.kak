@@ -27,13 +27,13 @@ indented. If, however, the parameter is non-empty, it is treated as the number o
 characters preceding the current line. This information will be used to unindent the line.
 " \
     -params 0.. \
-    idris2-priv-indent-line %<
+    idris2-priv-indent-line %{
     evaluate-commands -draft -save-regs '^"/ab' %{
         # Store cursor position in a and yank line up to and including cursor in b
         execute-keys -save-regs '' <semicolon>\"aZGh\"by
 
         execute-keys -save-regs '' %sh{
-            alternatives='([^-]-[<gt>]\h*$|\b(data|mutual|where|do|if|let|of)\b|\h[=]\h*$)'
+            alternatives='([^-]-[>]\h*$|\b(data|mutual|where|do|if|let|of)\b|\h[=]\h*$)'
             if [ -z "$1" ]; then
                 printf '\\"azk<a-x>s(%s|^$)<ret><space>' "$alternatives"
             else
@@ -68,7 +68,7 @@ characters preceding the current line. This information will be used to unindent
             idris2-priv-indent
         >
     }
->
+}
 
 define-command idris2-newline -docstring "indents newly inserted lines and continues comments.
 
