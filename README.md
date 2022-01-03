@@ -12,7 +12,7 @@ To enable `idris2.kak`, either place it somewhere in your autoload directory, so
 
 ## Using idris2.kak
 
-Once `idris2.kak` is loaded, it will set the variable `filetype` to `"idris2"`. Syntax highlighting is added to buffers of that file type and the value of `extra_word_chars` is set to include underscores and apostrophes.
+idris2.kak will automatically set the variable `filetype` to `"idris2"` for any file with the `idr` extension. Syntax highlighting is then added and the value of `extra_word_chars` is set to include underscores and apostrophes.
 
 That is all `idris2.kak` does by default. Additional functionality is provided via commands.
 
