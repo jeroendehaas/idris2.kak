@@ -107,7 +107,7 @@ define-command idris2-unindent \
         set-register a %sh{
             # subtract 2: cursor is at first non-whitespace character. Subtract
             # one to find the amount of leading whitespace
-            count=$(expr $(printf '%s' "$kak_reg_a" | wc -c | tr -d ' ') - 1)
+            count=$(expr $(printf '%s' "$kak_reg_a" | wc -c | tr -d ' ') - 2)
             printf '%s' $count
         }
         try %<
