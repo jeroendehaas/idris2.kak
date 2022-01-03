@@ -6,11 +6,6 @@ hook global WinSetOption filetype=idris2 %{
     require-module idris2
 
     set-option buffer extra_word_chars "_" "'"
-
-    hook window InsertChar \n -group idris2-indent idris2-indent-new-line
-    hook window InsertDelete ' ' -group idris2-indent idris2-indent-delete
-
-    hook -once -always window WinSetOption filetype=.* %{ remove-hooks window idris2-.* }
 }
 
 hook -group idris2-highlight global WinSetOption filetype=idris2 %{
@@ -27,9 +22,9 @@ define-command -hidden idris2-priv-indent %<
 define-command -hidden \
     -docstring "Either increments or decrements the indentation of the line the anchor is on.
 
-The first parameter controls whether to indent or deindent the region. By default, the line is
+The first parameter controls whether to indent or unindent the region. By default, the line is
 indented. If, however, the parameter is non-empty, it is treated as the number of whitespace
-characters preceding the current line. This information will be used for deindentation.
+characters preceding the current line. This information will be used to unindent the line.
 " \
     -params 0.. \
     idris2-priv-indent-line %<
@@ -100,13 +95,13 @@ define-command idris2-indent-delete \
 This command is intended to be run as a hook" %<
     evaluate-commands -draft -itersel -no-hooks %<
         execute-keys -draft Gh<a-k>^\h+\H?\z<ret>
-        idris2-deindent
+        idris2-unindent
     >
 >
 
 
-define-command idris2-deindent \
--docstring "deindent selected lines, aligning the result to the surrounding context." \
+define-command idris2-unindent \
+-docstring "unindent selected lines, aligning the result to the surrounding context." \
 %<
     evaluate-commands -draft -itersel -no-hooks %<
         execute-keys -save-regs '' <a-x>s^\h+\H<ret>\"ay
