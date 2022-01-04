@@ -12,23 +12,23 @@ To enable `idris2.kak`, either place it somewhere in your autoload directory, so
 
 ## Using idris2.kak
 
-idris2.kak will automatically set the variable `filetype` to `"idris2"` for any file with the `idr` extension. Syntax highlighting is then added and the value of `extra_word_chars` is set to include underscores and apostrophes.
+idris2.kak will automatically set the variable `filetype` to `"idris"` for any file with the `idr` extension. Syntax highlighting is then added and the value of `extra_word_chars` is set to include underscores and apostrophes.
 
 That is all `idris2.kak` does by default. Additional functionality is provided via commands.
 
-The commands `idris2-newline` and `idris2-delete` are intended to be run as hooks. The former will continue comments and documentation, and indent new lines. The latter can be used to unindent a line, if leading white space is deleted.
+The commands `idris-newline` and `idris-delete` are intended to be run as hooks. The former will continue comments and documentation, and indent new lines. The latter can be used to unindent a line, if leading white space is deleted.
 
 ```kak
-hook global WinSetOption filetype=idris2 %{
+hook global WinSetOption filetype=idris %{
 
-    hook window InsertChar \n -group my-idris2-indent idris2-newline
-    hook window InsertDelete ' ' -group my-idris2-indent idris2-delete
+    hook window InsertChar \n -group my-idris-indent idris-newline
+    hook window InsertDelete ' ' -group my-idris-indent idris-delete
 
-    hook -once -always window WinSetOption filetype=.* %{ remove-hooks window my-idris2-.* }
+    hook -once -always window WinSetOption filetype=.* %{ remove-hooks window my-idris-.* }
 }
 ```
 
-To manually indent or unindent a selection, use the commands `idris2-indent` and `idris2-unindent`.
+To manually indent or unindent a selection, use the commands `idris-indent` and `idris-unindent`.
 
 ## Interactive Editing
 
