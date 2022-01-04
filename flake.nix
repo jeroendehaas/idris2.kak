@@ -9,26 +9,28 @@
           version = "0.1";
           src = ./.;
         };
+
         kakoune-with-idris2 = pkgs.symlinkJoin {
-          paths = [
-            (pkgs.kakoune.override { plugins = [kakoune-idris2]; })
-          ];
           name = "kakoune-with-idris2-0.1";
+          paths = [ (pkgs.kakoune.override { plugins = [ kakoune-idris2 ]; }) ];
           nativeBuildInputs = [ pkgs.makeWrapper ];
           postBuild = ''
-            cat << "EOF" > $out/share/kak/autoload/idris2-conf.kak
-            hook global WinSetOption filetype=idris2 %{
+            mkdir -p $out/config
+            ln -s $out/share/kak/autoload $out/config/autoload
+            cat << "EOF" > $out/config/kakrc
+            hook global WinSetOption filetype=idris %{
 
-                hook window InsertChar \n -group my-idris2-indent idris2-newline
-                hook window InsertDelete ' ' -group my-idris2-indent idris2-delete
+                hook window InsertChar \n -group my-idris-indent idris-newline
+                hook window InsertDelete ' ' -group my-idris-indent idris-delete
 
-                hook -once -always window WinSetOption filetype=.* %{ remove-hooks window my-idris2-.* }
+                hook -once -always window WinSetOption filetype=.* %{ remove-hooks window my-idris-.* }
             }
             EOF
+            rm $out/bin/kak
+            makeWrapper ${pkgs.kakoune}/bin/kak "$out/bin/kak" --set KAKOUNE_CONFIG_DIR "$out/config"
           '';
         };
-
-      in rec {
+      in {
         packages = { inherit kakoune-idris2; };
         devShell = pkgs.mkShell {
           buildInputs = [
