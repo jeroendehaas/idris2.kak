@@ -23,15 +23,26 @@
                 hook window InsertChar \n -group my-idris-indent idris-newline
                 hook window InsertDelete ' ' -group my-idris-indent idris-delete
 
-                hook -once -always window WinSetOption filetype=.* %{ remove-hooks window my-idris-.* }
+                map window normal ">" ': idris-indent<ret>'
+                map window normal "<" ': idris-unindent<ret>'
+
+                hook -once -always window WinSetOption filetype=.* %{
+                  remove-hooks window my-idris-.*
+                  map window normal '>' '>'
+                  map window normal '<' '<'
+                }
             }
             EOF
             rm $out/bin/kak
             makeWrapper ${pkgs.kakoune}/bin/kak "$out/bin/kak" --set KAKOUNE_CONFIG_DIR "$out/config"
           '';
+          meta = {
+            mainProgram = "kak";
+          };
         };
       in {
         packages = { inherit kakoune-idris2; };
+        defaultApp = kakoune-with-idris2;
         devShell = pkgs.mkShell {
           buildInputs = [
             kakoune-with-idris2
