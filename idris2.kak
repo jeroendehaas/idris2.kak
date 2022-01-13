@@ -135,15 +135,15 @@ define-command idris-indent \
 >
 
 define-command -hidden add-raw-string-literal -params 1 %~
-    add-highlighter "shared/idris/code/raw-string-literal%arg{1}" region -match-capture "([#]{%arg{1}})[""]" "[""]([#]{%arg{1}})" regions
-    add-highlighter "shared/idris/code/raw-string-literal%arg{1}/text" default-region fill string
-    add-highlighter "shared/idris/code/raw-string-literal%arg{1}/interpolation" region "\\[#]{%arg{1}}\{" \} ref idris
+    add-highlighter "shared/idris/raw-string-literal%arg{1}" region -match-capture "([#]{%arg{1}})[""]" "[""]([#]{%arg{1}})" regions
+    add-highlighter "shared/idris/raw-string-literal%arg{1}/text" default-region fill string
+    add-highlighter "shared/idris/raw-string-literal%arg{1}/interpolation" region "\\[#]{%arg{1}}\{" \} ref idris
 ~
 
 define-command -hidden add-raw-multiline-string-literal -params 1 %~
-    add-highlighter "shared/idris/code/raw-multiline-string-literal%arg{1}" region -match-capture "([#]{%arg{1}})[""]{3}" "[""]{3}([#]{%arg{1}})" regions
-    add-highlighter "shared/idris/code/raw-multiline-string-literal%arg{1}/text" default-region fill string
-    add-highlighter "shared/idris/code/raw-multiline-string-literal%arg{1}/interpolation" region "\\[#]{%arg{1}}\{" \} ref idris
+    add-highlighter "shared/idris/raw-multiline-string-literal%arg{1}" region -match-capture "([#]{%arg{1}})[""]{3}" "[""]{3}([#]{%arg{1}})" regions
+    add-highlighter "shared/idris/raw-multiline-string-literal%arg{1}/text" default-region fill string
+    add-highlighter "shared/idris/raw-multiline-string-literal%arg{1}/interpolation" region "\\[#]{%arg{1}}\{" \} ref idris
 ~
 
 add-highlighter shared/idris regions
