@@ -54,7 +54,7 @@ characters preceding the current line. This information will be used to unindent
             execute-keys -save-regs '' <a-k>(mutual|do|where|let|of)\h*$<ret>\"a<a-z>a<a-&>\)<space>
             idris-priv-indent
         > catch %<
-            execute-keys -save-regs '' <a-k>-<gt>\h*$<ret><a-x>s^.*?\w[\w\d']*\h*:\h*\H<ret>\"a<a-z>a<a-S>&
+            execute-keys -save-regs '' <a-k>-<gt>\h*$<ret><a-x>s^.*?\w[\w\d']*\h*:\h*\H<ret><semicolon>\"a<a-z>a<a-S>&
         > catch %<
             execute-keys -save-regs '' <a-k>data<ret>f=<semicolon>\"a<a-z>a<a-S>&
         > catch %<
