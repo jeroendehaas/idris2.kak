@@ -32,19 +32,16 @@ characters preceding the current line. This information will be used to unindent
         # Store cursor position in a and yank line up to and including cursor in b
         execute-keys -save-regs '' <semicolon>\"aZGh\"by
 
-        execute-keys -save-regs '' %sh{
-            alternatives='([^-]-[>]\h*$|\b(data|mutual|where|do|if|let|of)\b|\h[=]\h*$)'
+        evaluate-commands -save-regs '' %sh{
+            alternatives='((?!<gt>-)-[<gt>]\h*$|\b(data|mutual|where|do|if|let|of)\b|\h[=]\h*$)'
             if [ -z "$1" ]; then
-                printf '\\"azk<a-x>s(%s|^$)<ret><space>' "$alternatives"
+                printf 'exec \\"azk<a-x>s(%s|^$)<ret><space>\n' "$alternatives"
             else
-                # Find point that is closer to line start than cursor
-                count=$(expr "$1" - 1)
-                if [ $count -le 0 ]; then
-                    count=0
-                fi
-                printf '<a-x>s^\h*<ret>d<a-/>^[^\\n]{,%s}(%s|$)<ret><a-n>' "$count" "$alternatives"
+                printf 'exec <a-x>s^\h*<ret>d<a-/>(^[^\\n]{,%s}%s|^$)<ret>\n' "$1" "$alternatives"
+                printf 'try %%< exec <a-k>^$<ret> > catch %%< exec <a-n> >\n'
             fi
         }
+
 
         execute-keys -save-regs '' Z
 
@@ -54,9 +51,9 @@ characters preceding the current line. This information will be used to unindent
             execute-keys -save-regs '' <a-k>(mutual|do|where|let|of)\h*$<ret>\"a<a-z>a<a-&>\)<space>
             idris-priv-indent
         > catch %<
-            execute-keys -save-regs '' <a-k>-<gt>\h*$<ret><a-x>s^.*?\w[\w\d']*\h*:\h*\H<ret><semicolon>\"a<a-z>a<a-S>&
+            execute-keys -save-regs '' zGlL<a-k>\A-<gt>\h*$<ret><a-x>s^.*?\w[\w\d']*\h*:\h*\H<ret><semicolon>\"a<a-z>a<a-S>&
         > catch %<
-            execute-keys -save-regs '' <a-k>data<ret>f=<semicolon>\"a<a-z>a<a-S>&
+            execute-keys -save-regs '' z<a-k>data<ret>f=<semicolon>\"a<a-z>a<a-S>&
         > catch %<
             execute-keys -save-regs '' <a-k>where<ret><a-x>s.*data\h+\H<ret><semicolon>\"a<a-z>a<a-S>&
         > catch %<
