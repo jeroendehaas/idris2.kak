@@ -93,8 +93,10 @@ define-command idris-delete \
 
 This command is intended to be run as a hook" %<
     evaluate-commands -draft -itersel -no-hooks %<
-        execute-keys -draft Gh<a-k>^\h+\H?\z<ret>
-        idris-unindent
+        try %<
+            execute-keys -draft Gh<a-k>^\h+\H?\z<ret>
+            idris-unindent
+        >
     >
 >
 
