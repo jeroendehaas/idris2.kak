@@ -187,6 +187,6 @@ add-highlighter shared/idris/code/inline/visibility regex \b(private|export|publ
 add-highlighter shared/idris/code/inline/totality regex \b(total|partial|covering)\b 0:attribute
 add-highlighter shared/idris/code/inline/pragma regex '%(hide|logging|auto_lazy|unbound_implicits|undotted_record_projections|amibguity_depth|pair|rewrite|integerLit|stringLit|charLit|name|start|allow_overloads|language|default|transform|hint|global_hint|defaulthint|inline|extern|macro|spec|foreign|runElab|tcinline|defaulthint|auto_implicit_depth)' 0:attribute
 add-highlighter shared/idris/code/inline/backtick regex `[a-zA-Z][a-zA-Z0-9_']*` 0:operator
-add-highlighter shared/idris/code/inline/introduce regex ((?<=[({])\h*([01])\h+)?\b[_a-z][a-zA-Z0-9_']*\h*(?=\h:\h) 0:variable 1:variable
+add-highlighter shared/idris/code/inline/introduce regex ([01]\h+)?\b([_A-Za-z][a-zA-Z0-9_']*)\h*(?=\h:\h) 0:variable 1:variable
   
 €
