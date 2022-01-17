@@ -176,7 +176,7 @@ add-highlighter shared/idris/code/inline default-region group
 add-highlighter shared/idris/code/inline/operator regex  ([-!#$%&*+./<=>?@\\^|~:]) 0:operator
 add-highlighter shared/idris/code/inline/float regex '\b\d+\.\d+([eE][-+]?\d+)?\b' 0:value
 add-highlighter shared/idris/code/inline/int regex '\b(\d+|0[xX][a-fA-F\d]+|0[oO][0-7]+)\b' 0:value
-add-highlighter shared/idris/code/inline/char regex \B[']([^\\']|[\\]['"\w\d\\]|[\\]u[0-9a-fA-F]{4})[']\B 0:string
+add-highlighter shared/idris/code/inline/char regex \B[']([^\\]|[\\]['"\w\d\\]|[\\]u[0-9a-fA-F]{4})[']\B 0:string
 add-highlighter shared/idris/code/inline/type regex \b([A-Z][a-zA-Z0-9_']*|_)\b 0:type
 add-highlighter shared/idris/code/inline/meta-variable regex \B(\?[a-z][a-zA-Z0-9_']*)\b 0:variable
 add-highlighter shared/idris/code/inline/keyword regex \b(data|record|interface|implementation|where|parameters|mutual|using|auto|impossible|default|constructor|do|case|of|rewrite|with|let|in|forall|noHints|uniqueSearch|search|external|noNewtype|containedin=idris2Brackets|if|then|else)\b 0:keyword
