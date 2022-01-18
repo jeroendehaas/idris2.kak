@@ -134,18 +134,6 @@ define-command idris-indent \
     >
 >
 
-define-command -hidden add-raw-string-literal -params 1 %~
-    add-highlighter "shared/idris/raw-string-literal%arg{1}" region -match-capture "([#]{%arg{1}})[""]" "[""]([#]{%arg{1}})" regions
-    add-highlighter "shared/idris/raw-string-literal%arg{1}/text" default-region fill string
-    add-highlighter "shared/idris/raw-string-literal%arg{1}/interpolation" region "\\[#]{%arg{1}}\{" \} ref idris
-~
-
-define-command -hidden add-raw-multiline-string-literal -params 1 %~
-    add-highlighter "shared/idris/raw-multiline-string-literal%arg{1}" region -match-capture "([#]{%arg{1}})[""]{3}" "[""]{3}([#]{%arg{1}})" regions
-    add-highlighter "shared/idris/raw-multiline-string-literal%arg{1}/text" default-region fill string
-    add-highlighter "shared/idris/raw-multiline-string-literal%arg{1}/interpolation" region "\\[#]{%arg{1}}\{" \} ref idris
-~
-
 add-highlighter shared/idris regions
 # Based on Idris2's lexer
 add-highlighter shared/idris/block-comment region -recurse \{- \{- -\} fill comment
@@ -155,28 +143,35 @@ add-highlighter shared/idris/line-comment region ---*(?![}]) $ fill comment
 add-highlighter shared/idris/code default-region regions
 
 
-add-raw-multiline-string-literal 0
-add-raw-multiline-string-literal 1
-add-raw-multiline-string-literal 2
-add-raw-multiline-string-literal 3
-add-raw-multiline-string-literal 4
+define-command -hidden add-raw-strings %~
+    evaluate-commands %sh{
+        for kind in -sl -ml; do
+            prefix=''
+            for i in $(seq 1 5); do
+                quotes='["]'
+                [ "$kind" = "-ml" ] && quotes=$quotes'{3}'
+                prefix='#'$prefix
+                escape='\\'$prefix
+                cat <<-EOF
+                    add-highlighter shared/idris/string${kind}$i               region         %{$prefix$quotes} %{(?<!$escape)(?:$escape$escape)*$quotes$prefix} regions
+                    add-highlighter shared/idris/string${kind}$i/text          default-region fill string
+                    add-highlighter shared/idris/string${kind}$i/interpolation region         %<$escape\{> %<\}> ref idris
+		EOF
+            done
+        done
+    }
+~
 
-add-raw-string-literal 0
-add-raw-string-literal 1
-add-raw-string-literal 2
-add-raw-string-literal 3
-add-raw-string-literal 4
-
-
-add-highlighter shared/idris/parens region -recurse \( \( \) ref idris/code
-add-highlighter shared/idris/braces region -recurse \{ \{ \} ref idris/code
-add-highlighter shared/idris/brackets region -recurse \[ \[ \] ref idris/code
+add-highlighter shared/idris/code/string region (?<!')["] (?<!\\)(?:\\\\)*["] regions
+add-highlighter shared/idris/code/string/ default-region fill string
+add-highlighter shared/idris/code/string/ region (?<!\\)(?:\\\\)*\\\{ \} ref idris
+add-raw-strings
 
 add-highlighter shared/idris/code/inline default-region group
 add-highlighter shared/idris/code/inline/operator regex  ([-!#$%&*+./<=>?@\\^|~:]) 0:operator
 add-highlighter shared/idris/code/inline/float regex '\b\d+\.\d+([eE][-+]?\d+)?\b' 0:value
 add-highlighter shared/idris/code/inline/int regex '\b(\d+|0[xX][a-fA-F\d]+|0[oO][0-7]+)\b' 0:value
-add-highlighter shared/idris/code/inline/char regex \B[']([^\\]|[\\]['"\w\d\\]|[\\]u[0-9a-fA-F]{4})[']\B 0:string
+add-highlighter shared/idris/code/inline/char regex \B'([^\\']|\\.|[\\]u[0-9a-fA-F]{4})'\B 0:string
 add-highlighter shared/idris/code/inline/type regex \b([A-Z][a-zA-Z0-9_']*|_)\b 0:type
 add-highlighter shared/idris/code/inline/meta-variable regex \B(\?[a-z][a-zA-Z0-9_']*)\b 0:variable
 add-highlighter shared/idris/code/inline/keyword regex \b(data|record|interface|implementation|where|parameters|mutual|using|auto|impossible|default|constructor|do|case|of|rewrite|with|let|in|forall|noHints|uniqueSearch|search|external|noNewtype|containedin=idris2Brackets|if|then|else)\b 0:keyword
@@ -188,5 +183,4 @@ add-highlighter shared/idris/code/inline/totality regex \b(total|partial|coverin
 add-highlighter shared/idris/code/inline/pragma regex '%(hide|logging|auto_lazy|unbound_implicits|undotted_record_projections|amibguity_depth|pair|rewrite|integerLit|stringLit|charLit|name|start|allow_overloads|language|default|transform|hint|global_hint|defaulthint|inline|extern|macro|spec|foreign|runElab|tcinline|defaulthint|auto_implicit_depth)' 0:attribute
 add-highlighter shared/idris/code/inline/backtick regex `[a-zA-Z][a-zA-Z0-9_']*` 0:operator
 add-highlighter shared/idris/code/inline/introduce regex ([01]\h+)?\b([_A-Za-z][a-zA-Z0-9_']*)\h*(?=\h:\h) 0:variable 1:variable
-  
 €
