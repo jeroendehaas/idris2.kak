@@ -53,7 +53,7 @@ characters preceding the current line. This information will be used to unindent
         > catch %<
             execute-keys -save-regs '' zGlL<a-k>\A-<gt>\h*$<ret><a-x>s^.*?\w[\w\d']*\h*:\h*\H<ret><semicolon>\"a<a-z>a<a-S>&
         > catch %<
-            execute-keys -save-regs '' z<a-k>data<ret>f=<semicolon>\"a<a-z>a<a-S>&
+            execute-keys -save-regs '' z<a-k>(data|record)<ret>f=<semicolon>\"a<a-z>a<a-S>&
         > catch %<
             execute-keys -save-regs '' <a-k>where<ret><a-x>s.*data\h+\H<ret><semicolon>\"a<a-z>a<a-S>&
         > catch %<
@@ -144,7 +144,7 @@ add-highlighter shared/idris/code default-region regions
 
 
 define-command -hidden add-raw-strings %~
-    evaluate-commands %sh{
+    evaluate-commands %sh[
         for kind in -sl -ml; do
             prefix=''
             for i in $(seq 1 5); do
@@ -159,7 +159,7 @@ define-command -hidden add-raw-strings %~
 		EOF
             done
         done
-    }
+    ]
 ~
 
 add-highlighter shared/idris/code/string region (?<!')["] (?<!\\)(?:\\\\)*["] regions
