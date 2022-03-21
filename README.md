@@ -33,3 +33,11 @@ To manually indent or unindent a selection, use the commands `idris-indent` and 
 ## Interactive Editing
 
 This plugin does not add interactive editing capabilities. Consider using the [Idris2 Language Server](https://github.com/idris-community/idris2-lsp) in conjunction with [kak-lsp](https://github.com/kak-lsp/kak-lsp).
+
+### Helper commands
+Idris2.kak provides some commands to quickly initiate code actions using kak-lsp:
+
+1. `idris-case` performs a case split.
+2. `idris-hole-case` transforms a hole into a case.
+3. `idris-hole-with` adds a with-clause for a hole.
+4. `idris-hole-lemma` creates a lemma for a hole.

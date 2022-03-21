@@ -15,6 +15,42 @@ hook -group idris-highlight global WinSetOption filetype=idris %{
 
 provide-module -override idris %€
 
+define-command idris-priv-with-word -override -params 1 %{
+    evaluate-commands %{
+        write
+        evaluate-commands -draft %{
+            execute-keys "<semicolon><a-i>w"
+            lsp-perform-code-action-menu "%arg{1} ?%val{selection}"
+        }
+        write
+    }
+}
+
+define-command idris-add-clause -override %{
+    evaluate-commands %{
+        write
+        lsp-perform-code-action-menu 'Add clause'
+        write
+    }
+}
+
+define-command idris-case -override %{
+    idris-priv-with-word "Case split on"
+}
+
+define-command idris-hole-case -override %{
+    idris-priv-with-word "Make case for hole"
+}
+
+define-command idris-hole-lemma -override %{
+    idris-priv-with-word "Make lemma for hole"
+}
+
+define-command idris-hole-with -override %{
+    idris-priv-with-word "Make with for hole"
+}
+
+
 define-command -hidden idris-priv-indent %<
     execute-keys i<space><esc><gt>i<backspace><esc>
 >
