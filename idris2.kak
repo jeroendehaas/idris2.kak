@@ -20,7 +20,7 @@ define-command idris-priv-with-word -override -params 1 %{
         write
         evaluate-commands -draft %{
             execute-keys "<semicolon><a-i>w"
-            lsp-perform-code-action-menu "%arg{1} ?%val{selection}"
+            lsp-code-action "%arg{1} \?%val{selection}"
         }
         write
     }
