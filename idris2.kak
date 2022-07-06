@@ -29,7 +29,7 @@ define-command idris-priv-with-word -override -params 1 %{
 define-command idris-add-clause -override %{
     evaluate-commands %{
         write
-        lsp-perform-code-action-menu 'Add clause'
+        lsp-code-action 'Add clause'
         write
     }
 }
