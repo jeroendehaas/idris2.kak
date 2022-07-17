@@ -91,7 +91,7 @@ characters preceding the current line. This information will be used to unindent
         > catch %<
             execute-keys -save-regs '' z<a-k>(data|record)<ret>f=<semicolon>\"a<a-z>a<a-S>&
         > catch %<
-            execute-keys -save-regs '' <a-k>where<ret><a-x>s.*data\h+\H<ret><semicolon>\"a<a-z>a<a-S>&
+            execute-keys -save-regs '' <a-k>where<ret><a-x>s.*(data|interface|implementation)\h+\H<ret><semicolon>\"a<a-z>a<a-S>&
         > catch %<
             execute-keys -save-regs '' z<a-L>s\b(where|do|if|let)\b\h+\H<ret><semicolon>\"a<a-z>a<a-S>&
         > catch %<
