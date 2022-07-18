@@ -69,7 +69,7 @@ characters preceding the current line. This information will be used to unindent
         execute-keys -save-regs '' <semicolon>\"aZGh\"by
 
         evaluate-commands -save-regs '' %sh{
-            alternatives='((?!<gt>-)-[<gt>]\h*$|\b(data|mutual|where|do|if|let|of)\b|\h[=]\h*$)'
+            alternatives='((?!<gt>-)-[<gt>]\h*$|\b(data|mutual|where|do|if|let|of|namespace)\b|\h[=]\h*$)'
             if [ -z "$1" ]; then
                 printf 'exec \\"azk<a-x>s(%s|^$)<ret><space>\n' "$alternatives"
             else
@@ -91,7 +91,12 @@ characters preceding the current line. This information will be used to unindent
         > catch %<
             execute-keys -save-regs '' z<a-k>(data|record)<ret>f=<semicolon>\"a<a-z>a<a-S>&
         > catch %<
-            execute-keys -save-regs '' <a-k>where<ret><a-x>s.*(data|interface|implementation)\h+\H<ret><semicolon>\"a<a-z>a<a-S>&
+            # handle namespaces, interfaces and implementations differently, do not try to align
+            # definitions with the name.
+            execute-keys -save-regs '' z<a-k>\b(namespace|interface|implementation)\b<ret>\"a<a-z>a<a-&>\)<space>
+            idris-priv-indent
+        > catch %<
+            execute-keys -save-regs '' <a-k>where<ret><a-x>s.*(data)\h+\H<ret><semicolon>\"a<a-z>a<a-S>&
         > catch %<
             execute-keys -save-regs '' z<a-L>s\b(where|do|if|let)\b\h+\H<ret><semicolon>\"a<a-z>a<a-S>&
         > catch %<
@@ -213,6 +218,7 @@ add-highlighter shared/idris/code/inline/meta-variable regex \B(\?[a-z][a-zA-Z0-
 add-highlighter shared/idris/code/inline/keyword regex \b(data|record|interface|implementation|where|parameters|mutual|using|auto|impossible|default|constructor|do|case|of|rewrite|with|let|in|forall|noHints|uniqueSearch|search|external|noNewtype|containedin=idris2Brackets|if|then|else)\b 0:keyword
 add-highlighter shared/idris/code/inline/underscore regex \b_\b 0:variable
 add-highlighter shared/idris/code/inline/module regex \h*(module)\h+(([A-Z][\w\d_']*\.)*[A-Z][\w\d_']*)\b 1:keyword 2:module 3:module
+add-highlighter shared/idris/code/inline/namespace regex \h*(namespace)\h+(([A-Z][\w\d_']*\.)*[A-Z][\w\d_']*)\b 1:keyword 2:module 3:module
 add-highlighter shared/idris/code/inline/import regex \h*(import)(\s+public)?\s+(([A-Z][\w\d_']*\.)*[A-Z][\w\d_']*)(\h*as\h*([A-Z][\w\d_']*))?\b 1:keyword 2:keyword 3:module 4:module 5:keyword 6:module
 add-highlighter shared/idris/code/inline/visibility regex \b(private|export|public\ export)\b 0:attribute
 add-highlighter shared/idris/code/inline/totality regex \b(total|partial|covering)\b 0:attribute
